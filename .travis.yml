@@ -34,9 +34,9 @@ android:
     - sys-img-armeabi-v7a-android-22
     - sys-img-armeabi-v7a-android-17
     
-before_install:
-    - chmod +x gradlew
-    - chmod +x cdep
+#before_install:
+#    - chmod +x gradlew
+#    - chmod +x cdep
 
 install:
   - wget --no-check-certificate https://dl.google.com/android/repository/android-ndk-r13b-linux-x86_64.zip -O android-ndk-r13b-linux-x86_64.zip
