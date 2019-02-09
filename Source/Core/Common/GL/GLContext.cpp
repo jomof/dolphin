@@ -90,7 +90,7 @@ std::unique_ptr<GLContext> GLContext::Create(const WindowSystemInfo& wsi, bool s
 #endif
 #if defined(ANDROID)
   if (wsi.type == WindowSystemType::Android)
-#ifdef (HAVE_EGL)
+#ifdef defined(HAVE_EGL)
     context = std::make_unique<GLContextEGLAndroid>();
 #endif
 #endif
