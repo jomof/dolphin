@@ -1,0 +1,60 @@
+language: android
+jdk: oraclejdk8
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - cmake
+    - g++-6
+env:
+  global:
+    - ANDROID_API_LEVEL=23
+    - ANDROID_BUILD_TOOLS_VERSION=28.0.2
+
+android:
+  components:
+    # The BuildTools version used by your project
+    - build-tools-28.0.2
+
+    # The SDK version used to compile your project
+    - android-22
+    - android-23
+    - android-28
+   
+    # Additional components
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - addon-google_apis-google-19
+
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+    - sys-img-armeabi-v7a-android-22
+    - sys-img-armeabi-v7a-android-17
+    
+before_install:
+    - chmod +x gradlew
+    - chmod +x cdep
+
+install:
+  - wget --no-check-certificate https://dl.google.com/android/repository/android-ndk-r13b-linux-x86_64.zip -O android-ndk-r13b-linux-x86_64.zip
+  - unzip android-ndk-r13b-linux-x86_64.zip > android-ndk-r13b-linux-x86_64.uncompress-log 2>&1
+  - export ANDROID_NDK_HOME=$PWD/android-ndk-r13b
+  - wget https://github.com/Commit451/android-cmake-installer/releases/download/1.1.0/install-cmake.sh
+  - chmod +x install-cmake.sh
+  - "./install-cmake.sh"
+  - find ${ANDROID_HOME}cmake/*/bin/cmake
+
+script:
+  - ./cdep
+  - ./gradlew assemble
+
+  - android list targets
+
+  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+  - emulator -avd test -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  - ./gradlew connectedAndroidTest
