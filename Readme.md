@@ -4,6 +4,7 @@
 
 [![Build Status](https://travis-ci.org/jomof/dolphin.svg?branch=master)](https://travis-ci.org/jomof/dolphin) 
 
+
 Dolphin is an emulator for running GameCube and Wii games on Windows,
 Linux, macOS, and recent Android devices. It's licensed under the terms
 of the GNU General Public License, version 2 or later (GPLv2+).
